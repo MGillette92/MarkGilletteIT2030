@@ -1,0 +1,73 @@
+﻿@model FAQListViewModel
+@{
+    ViewData["Title"] = "Frequently Asked Questions";
+}
+
+
+<div class="row">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-9">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                        <a asp-action="Index"
+                           asp-route-activeCategory="all"
+                           asp-route-activeTopic="all"
+                           class="nav-item nav-link">All FAQs</a>
+
+                    @foreach (Topic topic in Model.Topics)
+                    {
+                        <a asp-action="Index"
+                           asp-route-activeCategory="@Model.ActiveCategory"
+                           asp-route-activeTopic="@topic.TopicID"
+                           class="nav-item nav-link
+                       @Model.CheckActiveTopic(topic.TopicID)">@topic.Name</a>
+                }
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="list-group">
+            @foreach (Category category in Model.Categorys)
+            {
+                <a asp-action="Index"
+                   asp-route-activeCategory="@category.CategoryID"
+                   asp-route-activeTopic="@Model.ActiveTopic"
+                   class="list-group-item
+                       @Model.CheckActiveCategory(category.CategoryID)">@category.Name</a>
+                }
+        </div>
+
+    </div>
+    <div class="col-sm-9">
+        <ul class="list-group">
+            @foreach (FAQ faq in Model.FAQs)
+            {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="font-weight-bold">@faq.Question</div> &nbsp;&nbsp; @faq.Answer
+                </div>
+                <div class="row">
+                    <div class="col">
+                        Topic: @faq.Topic.Name
+                    </div>
+                    <div class="col">
+                        Category: @faq.Category.Name
+                    </div>
+                </div>
+
+            </li>
+            }
+        </ul>
+    </div>
+</div>
+
